@@ -43,12 +43,6 @@ Then('the API should return a success response', async () => {
     console.log('API call was successful with 200 response code.');
 });
 
-When('I open the Webhook destination in RudderStack', async () => {
-    // Navigate to the Webhook destination page
-    await browser.url(`${dataPlaneUrlGlobal}/destinations/webhook`);
-    await browser.pause(5000); // Wait for the page to load
-});
-
 Then('I should see the delivered events count is greater than 0', async () => {
     const deliveredEventsCount = await $('selector-for-delivered-events-count').getText();
     expect(parseInt(deliveredEventsCount, 10)).toBeGreaterThan(0);
