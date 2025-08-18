@@ -17,7 +17,7 @@ on:
     - cron: "30 2 * * *" # 8 AM IST daily
 
 jobs:
-  build:
+  rudderstack-event-delivery-automation:
     runs-on: ubuntu-latest
 
     env:
@@ -64,12 +64,14 @@ jobs:
         - name: Generate Allure Report
           if: always()
           run: |
+            ls -R reports/allure-results
             npx allure generate reports/allure-results --clean -o reports/allure-report
+            ls -R reports/allure-report
 
         # Upload allure report as artifact
         - name: Upload Reports
           uses: actions/upload-artifact@v4
           if: always()
           with:
-            name: Allure Report
+            name: allure-report
             path: reports
