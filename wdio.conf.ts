@@ -150,7 +150,7 @@ export const config: WebdriverIO.Config = {
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: [
         ['allure', {
-            outputDir: 'allure-results',
+            outputDir: 'reports/allure-results',
             disableWebdriverStepsReporting: true,
             disableWebdriverScreenshotsReporting: false,
             addConsoleLogs: true,
@@ -358,7 +358,7 @@ export const config: WebdriverIO.Config = {
     onComplete: function () {
         try {
             console.log('Generating Allure Report...');
-            execSync('npx allure generate allure-results --clean -o allure-report', { stdio: 'inherit' });
+            execSync('npx allure generate reports/allure-results --clean -o reports/allure-report', { stdio: 'inherit' });
             console.log('Allure Report successfully generated!');
         } catch (err) {
             console.error('Error while generating Allure Report:', err);

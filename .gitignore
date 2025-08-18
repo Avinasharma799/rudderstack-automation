@@ -54,6 +54,7 @@ Generated\ Files/
 *.trx
 
 #Allure Result
+/reports/
 /allure-results/
 /allure-report/
 
