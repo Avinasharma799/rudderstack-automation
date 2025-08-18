@@ -33,11 +33,13 @@ class DestinationsPage{
     }
 
     async getDeliveredEventsCount() {
+        await this.deliveredEventsCount.waitForDisplayed({ timeout: 10000 });
         const countText = await this.deliveredEventsCount.getText();
         return parseInt(countText, 10);
     }
     
     async getFailedEventsCount() {
+        await this.failedEventsCount.waitForDisplayed({ timeout: 10000 });
         const countText = await this.failedEventsCount.getText();
         return parseInt(countText, 10);
     }

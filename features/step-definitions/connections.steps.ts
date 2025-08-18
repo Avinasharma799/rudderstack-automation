@@ -7,12 +7,12 @@ let httpSourceWriteKeyGlobal = '';
 let responseGlobal: any;
 
 Given('I navigate to the connections page', async () => {
-    connectionsPage.navigateToConnectionsPage();
+    await connectionsPage.navigateToConnectionsPage();
 });
 
 
 When('I read and store the Data Plane URL from the top right corner', async () => { 
-    const dataPlaneUrl = await connectionsPage.dataPlaneUrl.getText();
+    const dataPlaneUrl = await connectionsPage.getDataPlaneUrl();
     console.log(`Data Plane URL: ${dataPlaneUrl}`);
     dataPlaneUrlGlobal = dataPlaneUrl; 
 });
@@ -20,8 +20,7 @@ When('I read and store the Data Plane URL from the top right corner', async () =
 When('I copy the Write Key of the HTTP source', async () => {
     const writeKey = await connectionsPage.getHttpSourceWriteKey();
     console.log(`HTTP Source Write Key: ${writeKey}`);
-    httpSourceWriteKeyGlobal = writeKey; 
-    await browser.pause(20000);
+    httpSourceWriteKeyGlobal = writeKey;
 });
 
 When(/^I send a test event to the HTTP Source API: (.+)$/, async (payloadType: string) => {
@@ -41,14 +40,4 @@ When(/^I send a test event to the HTTP Source API: (.+)$/, async (payloadType: s
 Then('the API should return a success response', async () => { 
     expect(responseGlobal.status).toBe(200);
     console.log('API call was successful with 200 response code.');
-});
-
-Then('I should see the delivered events count is greater than 0', async () => {
-    const deliveredEventsCount = await $('selector-for-delivered-events-count').getText();
-    expect(parseInt(deliveredEventsCount, 10)).toBeGreaterThan(0);
-});
-
-Then('I should see the failed events count is 0', async () => {
-    const failedEventsCount = await $('selector-for-failed-events-count').getText();
-    expect(parseInt(failedEventsCount, 10)).toBe(0);
 });

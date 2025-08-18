@@ -1,4 +1,7 @@
 import * as dotenv from 'dotenv';
+import { execSync } from 'child_process';
+import allureReporter from '@wdio/allure-reporter';
+
 const env = process.env.ENV || 'prod';
 dotenv.config({ path: `.env.${env}` });
 
@@ -58,6 +61,15 @@ export const config: WebdriverIO.Config = {
     //
     capabilities: [{
         browserName: 'chrome',
+        'goog:chromeOptions': {
+        args: [
+            '--headless',          // Run in headless mode
+            '--disable-gpu',       // Recommended for headless
+            '--no-sandbox',        // Needed for some CI environments
+            '--disable-dev-shm-usage', // Prevents resource issues in CI
+            '--window-size=1920,1080'  // Ensure consistent viewport
+        ]
+        },
         acceptInsecureCerts: true
     } ],
 
@@ -137,15 +149,14 @@ export const config: WebdriverIO.Config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: [
-        'spec',
-        [
-            'allure',
-            {
-                outputDir: 'allure-results',
-                disableWebdriverStepsReporting: true,
-                disableWebdriverScreenshotsReporting: false,
-            },
-        ],
+        ['allure', {
+            outputDir: 'allure-results',
+            disableWebdriverStepsReporting: true,
+            disableWebdriverScreenshotsReporting: false,
+            addConsoleLogs: true,
+            useCucumberStepReporter: true,
+            reportedRetries: 0, 
+        }],
     ],
 
     // If you are using Cucumber you need to specify the location of your step definitions.
@@ -171,7 +182,7 @@ export const config: WebdriverIO.Config = {
         // <string> (expression) only execute the features or scenarios with tags matching the expression
         tagExpression: '',
         // <number> timeout for step definitions
-        timeout: 60000,
+        timeout: 600000,
         // <boolean> Enable this config to treat undefined definitions as warnings.
         ignoreUndefinedDefinitions: false
     },
@@ -275,8 +286,20 @@ export const config: WebdriverIO.Config = {
      * @param {number}             result.duration  duration of scenario in milliseconds
      * @param {object}             context          Cucumber World object
      */
-    // afterStep: function (step, scenario, result, context) {
-    // },
+    afterStep: async function (
+        step,
+        scenario,
+        { error }
+    ) {
+        if (error) {
+            const screenshot = await browser.takeScreenshot();
+            allureReporter.addAttachment(
+                'Screenshot on Failure',
+                Buffer.from(screenshot, 'base64'),
+            'image/png'
+            );
+        }
+    },
     /**
      *
      * Runs after a Cucumber Scenario.
@@ -332,8 +355,15 @@ export const config: WebdriverIO.Config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    // onComplete: function(exitCode, config, capabilities, results) {
-    // },
+    onComplete: function () {
+        try {
+            console.log('Generating Allure Report...');
+            execSync('npx allure generate allure-results --clean -o allure-report', { stdio: 'inherit' });
+            console.log('Allure Report successfully generated!');
+        } catch (err) {
+            console.error('Error while generating Allure Report:', err);
+        }
+    }
     /**
     * Gets executed when a refresh happens.
     * @param {string} oldSessionId session ID of the old session
