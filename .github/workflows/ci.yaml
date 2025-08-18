@@ -1,0 +1,77 @@
+name: CI Workflow
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Choose environment"
+        required: true
+        default: "prod"
+        type: choice
+        options:
+          - dev
+          - qa
+          - prod
+  schedule:
+    - cron: "30 2 * * *" # 8 AM IST daily
+
+jobs:
+  rudderstack-event-delivery-automation:
+    runs-on: ubuntu-latest
+
+    env:
+      ENV: ${{ github.event.inputs.environment || 'prod' }}
+
+    steps:
+        - name: Checkout Code
+          uses: actions/checkout@v4
+
+        - name: Setup Node
+          uses: actions/setup-node@v4
+          with:
+            node-version: '24'
+        
+        - name: Set Environment Variables
+          run: |
+            if [ "${{ env.ENV }}" = "dev" ]; then
+              echo "APP_URL=${{ secrets.DEV_APP_URL }}" >> $GITHUB_ENV
+              echo "USERNAME=${{ secrets.DEV_USERNAME }}" >> $GITHUB_ENV
+              echo "PASSWORD=${{ secrets.DEV_PASSWORD }}" >> $GITHUB_ENV
+            elif [ "${{ env.ENV }}" = "qa" ]; then
+              echo "APP_URL=${{ secrets.QA_APP_URL }}" >> $GITHUB_ENV
+              echo "USERNAME=${{ secrets.QA_USERNAME }}" >> $GITHUB_ENV
+              echo "PASSWORD=${{ secrets.QA_PASSWORD }}" >> $GITHUB_ENV
+            elif [ "${{ env.ENV }}" = "prod" ]; then
+              echo "APP_URL=${{ secrets.PROD_APP_URL }}" >> $GITHUB_ENV
+              echo "USERNAME=${{ secrets.PROD_USERNAME }}" >> $GITHUB_ENV
+              echo "PASSWORD=${{ secrets.PROD_PASSWORD }}" >> $GITHUB_ENV
+            fi
+
+        - name: Install Dependencies
+          run: npm install
+
+        - name: Install Chrome
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y google-chrome-stable
+            google-chrome --version
+
+        - name: Test
+          run: npx wdio run ./wdio.conf.ts
+
+        # Generate allure report
+        - name: Generate Allure Report
+          if: always()
+          run: |
+            ls -R reports/allure-results
+            npx allure generate reports/allure-results --clean -o reports/allure-report
+            ls -R reports/allure-report
+
+        # Upload allure report as artifact
+        - name: Upload Reports
+          uses: actions/upload-artifact@v4
+          if: always()
+          with:
+            name: allure-report
+            path: reports

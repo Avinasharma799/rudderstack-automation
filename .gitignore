@@ -53,6 +53,11 @@ Generated\ Files/
 [Bb]uild[Ll]og.*
 *.trx
 
+#Allure Result
+/reports/
+/allure-results/
+/allure-report/
+
 # NUnit
 *.VisualState.xml
 TestResult.xml
