@@ -84,7 +84,27 @@ The `ci.yaml` file in `.github/workflows` defines the continuous integration pip
 
 ## Running Tests
 
-- **Local**: npx wdio run ./wdio.conf.ts 
+1. **Local**: npx wdio run ./wdio.conf.ts 
+To run tests via GitHub Actions with branch and environment selection:
+
+2. **Github Actions**:
+
+    - **Trigger Workflow**:  
+        - Go to the "Actions" tab in your GitHub repository.
+        - Select the desired workflow (e.g., CI).
+        - Click "Run workflow" and choose the branch and environment from the dropdowns.
+
+    - **Download Allure Report Artifact**:  
+        - After the workflow completes, go to the workflow run summary.
+        - Download the `allure-report` artifact from the "Artifacts" section.
+
+    - **Unzip and Serve Report Locally**:
+        ```bash
+        unzip allure-report.zip
+        cd ./reports/allure-report
+        python3 -m http.server 8000
+        ```
+        - Open your browser and visit: [http://localhost:8000/index.html](http://localhost:8000/index.html)
 
 ## Reports
 
