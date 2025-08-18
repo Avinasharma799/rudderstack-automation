@@ -1,5 +1,9 @@
+/**
+ * Author: Avinash Kumar
+ * Date: 2025-08-18
+ * Description: Page object and methods for the Login page in RudderStack.
+ */
 class LoginPage {
-    // Locators
     get emailInput() {
         return $(`#text-input-email`);
     }
