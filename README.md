@@ -15,6 +15,13 @@ This project focus on creating automation flow for rudderstack application
 4. Reporting: Allure
 5. CI/CD: GitHub Actions
 
+## Prerequisites
+- Install [Node.js](https://nodejs.org/) (v20 or higher recommended)
+- Install [npm](https://www.npmjs.com/) (comes with Node.js)
+- Python 3 (for serving Allure reports locally)
+- Access to environment variables for test configuration
+- Internet connection for installing dependencies and running CI/CD workflows
+
 ## Installation
 
 1. Clone the repository:
