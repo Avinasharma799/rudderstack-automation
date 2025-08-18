@@ -5,7 +5,12 @@ import { ApiHelper } from '../../utils/api-helper';
 let dataPlaneUrlGlobal= '';
 let httpSourceWriteKeyGlobal = '';
 let responseGlobal: any;
-
+/**
+ * Author: Avinash Kumar
+ * Date: 2025-08-18
+ * Description: Step definitions for page navigation, sending events to the HTTP Source API
+ *              and validating the response.
+ */
 Given('I navigate to the connections page', async () => {
     await connectionsPage.navigateToConnectionsPage();
 });

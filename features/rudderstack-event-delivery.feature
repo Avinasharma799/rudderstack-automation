@@ -1,3 +1,7 @@
+#Author: Avinash Kumar
+#Date: 2025-08-18
+#Description: This feature file validates the event delivery from an HTTP source to a Webhook destination
+#             using various event types like identify, track, page, screen, group, alias, and batch.
 Feature: Validate RudderStack Data Pipeline
   As a QA engineer
   I want to send an event from an HTTP source

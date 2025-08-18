@@ -1,3 +1,8 @@
+/**
+ * Author: Avinash Kumar
+ * Date: 2025-08-18
+ * Description: Page object and methods for the Destinations page in RudderStack.
+ */
 class DestinationsPage{ 
     get destinationsOption() {
         return $(`//a[@data-testid="sub-menu-destinations"]`);

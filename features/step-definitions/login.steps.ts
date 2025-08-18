@@ -3,6 +3,11 @@ import loginPage from '../pageobjects/login.page';
 import {clickIfVisible} from '../../utils/utility';
 
 let islogin=false;
+/**
+ * Author: Avinash Kumar
+ * Date: 2025-08-18
+ * Description: Step definition to ensure the user is logged in to the RudderStack application
+ */
 Given('I am logged in to the RudderStack application', async () => {
     // RudderStack App URL - ideally keep this in wdio.conf.ts or an env variable
     if (islogin) {

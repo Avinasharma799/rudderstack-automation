@@ -13,6 +13,7 @@ on:
           - dev
           - qa
           - prod
+          
   schedule:
     - cron: "30 2 * * *" # 8 AM IST daily
 
@@ -60,7 +61,6 @@ jobs:
         - name: Test
           run: npx wdio run ./wdio.conf.ts
 
-        # Generate allure report
         - name: Generate Allure Report
           if: always()
           run: |
@@ -68,7 +68,6 @@ jobs:
             npx allure generate reports/allure-results --clean -o reports/allure-report
             ls -R reports/allure-report
 
-        # Upload allure report as artifact
         - name: Upload Reports
           uses: actions/upload-artifact@v4
           if: always()

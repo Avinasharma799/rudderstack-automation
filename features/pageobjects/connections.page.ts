@@ -1,3 +1,8 @@
+/**
+ * Author: Avinash Kumar
+ * Date: 2025-08-18
+ * Description: Page object and methods for the Connections page in RudderStack.
+ */
 class ConnectionPage {
     get dataPlaneUrl() {
         return $(`//span[text()="Data Plane"]//following::span[1]`);

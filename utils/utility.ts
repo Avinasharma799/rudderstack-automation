@@ -1,6 +1,6 @@
 /**
  * Clicks the element if it is visible.
- * @param {ChainablePromiseElement<WebdriverIO.Element>} element - The WebdriverIO element to click.
+ * @param {any} element - The WebdriverIO element to click.
  * @returns {Promise<void>}
  */
 export async function clickIfVisible(element:any): Promise<void> {

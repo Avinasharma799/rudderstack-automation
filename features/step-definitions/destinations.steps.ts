@@ -4,7 +4,12 @@ import allure from '@wdio/allure-reporter';
 
 let deliveredEventsCountBefore: number;
 let failedEventsCountBefore: number;
-
+/**
+ * Author: Avinash Kumar
+ * Date: 2025-08-18
+ * Description: Step definitions for validating event delivery from an HTTP source to a Webhook destination
+ *              using various event types like identify, track, page, screen, group, alias, and batch.
+ */
 When('I open the Webhook destination in RudderStack', async () => {
     await destinationsPage.navigateToDestinationsPage();
     await destinationsPage.webhookSecurityDestination.waitForDisplayed({ timeout: 10000 });

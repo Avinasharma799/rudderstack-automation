@@ -1,6 +1,7 @@
 {
   "name": "rudderstack-automation",
   "type": "module",
+  "author": "Avinash Kumar",
   "devDependencies": {
     "@testing-library/webdriverio": "^3.2.1",
     "@wdio/allure-reporter": "^9.19.1",
