@@ -96,6 +96,17 @@ To run tests via GitHub Actions with branch and environment selection:
 
 2. **Github Actions**:
 
+    - **Set Secret Variable**:
+        - Go to your GitHub repository's "Settings" > "Secrets and variables" > "Actions".
+        - Click "New repository secret" and enter a name (e.g., `API_KEY`) and its value.
+        - Secrets are encrypted and only available to workflows.
+        - Reference secrets in your workflow YAML using `${{ secrets.SECRET_NAME }}`.
+        - Example usage in `ci.yaml`:
+          ```yaml
+          env:
+            API_KEY: ${{ secrets.API_KEY }}
+          ```
+          
     - **Trigger Workflow**:  
         - Go to the "Actions" tab in your GitHub repository.
         - Select the desired workflow (e.g., CI).
