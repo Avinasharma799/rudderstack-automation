@@ -92,15 +92,15 @@ The `ci.yaml` file in `.github/workflows` defines the continuous integration pip
 ## Running Tests
 
 1. **Local**: npx wdio run ./wdio.conf.ts 
-To run tests via GitHub Actions with branch and environment selection:
 
-2. **Github Actions**:
+2. **Github Actions**:  
+To run tests via GitHub Actions with branch and environment selection:
 
     - **Set Secret Variable**:
         - Go to your GitHub repository's "Settings" > "Secrets and variables" > "Actions".
-        - Click "New repository secret" and enter a name (e.g., `API_KEY`) and its value.
+        - Click "New repository secret" and enter a name (e.g., `DEV_USERNAME`) and its value.
         - Secrets are encrypted and only available to workflows.
-        - Reference secrets in your workflow YAML using `${{ secrets.SECRET_NAME }}`.
+        - Reference secrets in your workflow YAML using `${{ secrets.DEV_USERNAME }}`.
         - Example usage in `ci.yaml`:
           ```yaml
           env:
